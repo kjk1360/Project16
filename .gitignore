@@ -68,6 +68,10 @@ crashlytics-build.properties
 /Assets/BansheeGz/
 /Assets/BansheeGz.meta
 
+# BG editor's local settings (database bytes and their .meta remain tracked)
+bansheegz_database_settings.json
+bansheegz_database_settings.json.meta
+
 # Local source reference material and verbatim transcriptions
 /Docs/GameRuleBook/
 /Docs/GameDesign/CardSourceInventory.json

@@ -38,7 +38,8 @@
 ## 카드게임 규칙 기반
 
 - 구현은 `Assets/_Project/CardGame`, 설계는 `Docs/GameDesign/SpecTableDesign.md`, 지원 범위는 `Docs/GameDesign/SourceEffectCoverage.md`를 따른다. Data/Domain/Application 코어는 UnityEngine을 참조하지 않는다.
-- BG 작성본은 `Assets/_Project/SpecAuthoring/CardGame.tables.json`, 생성 bytes는 `Assets/_Project/Resources/Project16/CardGameSpecs.bytes`다. 메뉴 `Tools/Project16/Import Card Game Specs (JSON to BG)`가 검증 후 생성한다. 두 파일을 서로 다른 작성 기준으로 편집하지 않는다.
+- BG 작성 원본은 `Assets/_Project/Resources/bansheegz_database.bytes`다. `Window/BGDatabase`에서 편집·Save 후 `Tools/Project16/Validate Saved Card Game Specs`로 검증한다. 기본 BG Resources 로더가 찾는 파일명과 위치, 기존 `.meta` GUID를 보존한다. 런타임은 이 에셋을 독립 repo로 읽는다.
+- `Assets/_Project/SpecAuthoring/CardGame.tables.json`은 초기 샘플/테스트 seed다. `Tools/Project16/Create Missing Card Game Specs from JSON`은 파일이 없을 때만 생성한다. 기존 BG 작성본을 이 seed로 덮어쓰거나 자동 동기화하지 않는다.
 - `sourceCards`는 원문 근거다. 번역 시트에 없는 공격력/가격/HP를 추정하여 정식 Spec으로 승격하지 않는다. 현재 실행 데이터는 `prototype-balance`로 구별한다.
 - 카드 이름/ID별 Domain 분기 대신 EffectOperation/Target/Value/Condition/Duration/Modifier/Upgrade를 조합한다. 새로운 의미는 primitive와 테스트를 추가한다. enum만 선언하고 처리하지 않는 효과를 유효하다고 받아들이지 않는다.
 - `GameRulesDomain`만 GameData를 Commit한다. 명령은 detached 상태에서 실행하고 선택 누락/거절 시 RNG·비용·카운터를 포함한 전체 상태가 불변이어야 한다. 지속시간은 전체 라운드와 개인턴의 기준 identity를 구분한다.

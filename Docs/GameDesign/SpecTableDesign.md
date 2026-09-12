@@ -62,9 +62,9 @@ BGDatabase의 가변 행과 전역 repo는 게임 서비스에 주입하지 않�
 
 구체적인 20개 테이블의 열과 관계는 [ImplementedTables.md](ImplementedTables.md), 원문 대비 실행 범위와 남은 기능은 [SourceEffectCoverage.md](SourceEffectCoverage.md)를 따른다.
 
-1. `Assets/_Project/SpecAuthoring/CardGame.tables.json`에서 행을 편집한다. 공개본은 실행용 124행이며 `sourceCards` 근거 테이블은 비어 있다. 공개 준비 전의 원문 근거 100행은 로컬 자료에 보존했다. [공개 저장소 구성](../RepositorySetup.md)을 참고한다. `catalog.sourceComplete=false`와 `prototype-balance` 태그는 미제공 기본 수치를 복원한 정식 팩이 아님을 뜻한다.
-2. Unity 메뉴 `Tools/Project16/Import Card Game Specs (JSON to BG)`를 실행한다. 형식, enum, required reference, 중복 key, 효과 순서, 조건/그룹/encounter 순환을 검증한 뒤 BG bytes를 갱신한다. BG 관계 목록은 중복을 보존한다.
-3. `CardGameModule.asset`이 bytes를 참조하고 FoundationSettings에 연결되어 있다. App Scope에 Spec을 넣고 LocalSession에 GameData → GameRulesDomain → GameApplication을 구성한다. `GameStarter`가 기존 저장 스케줄을 그대로 제공한다. 새 게임을 자동으로 시작하지 않는다.
+1. `Window/BGDatabase`의 Database 탭에서 행을 편집하고 Save한다. 작성 원본은 `Assets/_Project/Resources/bansheegz_database.bytes`다. 공개 샘플은 실행용 124행이며 `sourceCards` 근거 테이블은 비어 있다. 공개 준비 전의 원문 근거 100행은 로컬 자료에 보존했다. [공개 저장소 구성](../RepositorySetup.md)을 참고한다. `catalog.sourceComplete=false`와 `prototype-balance` 태그는 미제공 기본 수치를 복원한 정식 팩이 아님을 뜻한다.
+2. Unity 메뉴 `Tools/Project16/Validate Saved Card Game Specs`를 실행한다. 저장된 BG bytes의 형식, enum, required reference, 중복 key, 효과 순서, 조건/그룹/encounter 순환을 검증한다. BG 관계 목록은 중복을 보존한다. JSON은 초기 샘플/테스트 seed이며 `Create Missing Card Game Specs from JSON`은 DB가 없을 때만 생성한다. 기존 BG 편집 내용을 seed로 덮어쓰지 않는다.
+3. `CardGameModule.asset`이 같은 bytes를 참조하고 FoundationSettings에 연결되어 있다. 다음 게임 시작의 App Scope 구성 때 변경된 Spec을 읽고 LocalSession에 GameData → GameRulesDomain → GameApplication을 구성한다. 실행 중인 Spec snapshot은 자동 갱신하지 않는다. `GameStarter`가 기존 저장 스케줄을 그대로 제공한다. 새 게임을 자동으로 시작하지 않는다.
 4. Scene 구성 경계에서 `scene.ResolveEntry<IGameApplication>()`를 얻어 `StartRun("prototype-solo", seed)`를 호출한다. 실제 ViewModel은 `IGameApplication`과 `IGameData`를 private field로 주입받아 사용한다. `prototype-coop`은 2인 전투, `prototype-town`은 전투 밖의 스킬 강화/마을 효과 검증용이다.
 5. `CommandResult.Events`로 연출할 사건을 받고 `IGameData.Snapshot`으로 결과를 읽는다. `NeedsChoice`이면 Choice의 key/options/min/max를 표시하고 기존 선택에 답을 추가해 **같은 명령**을 재제출한다. `ExpectedRevision`으로 오래된 화면의 명령을 거절할 수 있다. 선택을 받기 전 비용과 RNG는 확정되지 않는다.
 

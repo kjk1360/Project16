@@ -49,3 +49,12 @@ Audit는 PATH의 Python 별칭 대신 설치된 Python 3를 사용하여 `.agent
 ## 공개 저장소 준비 검증
 
 같은 날짜에 공개용 작성본에서 원문 전사 100행만 별도 로컬 백업으로 분리했다. 20개 테이블의 실행용 124행은 유지했고 BG binary를 다시 생성했다. 이후 일반 `uloop compile` 오류/경고 0, `Project16.CardGame.Tests` EditMode 54개 통과를 확인했다. 이 검증은 필요한 BGDatabase/NuGet 패키지가 설치된 기존 Editor에서 실행했다. 공개 clone의 의존성 설치 과정과 별도의 플레이어 빌드는 실행하지 않았다. 제외·복원 규칙은 [RepositorySetup.md](../RepositorySetup.md)에 기록했다.
+
+## BG 편집 창 연결 수정 — 2026-09-13
+
+BG 기본 Resources 검색 규칙에 맞게 기존 에셋을 `Assets/_Project/Resources/bansheegz_database.bytes`로 이동했다. GUID `1ccc5aac61d962249ba563aed07be43d`와 모듈 참조는 유지했다. BG 창에서 20개 테이블·124행, 원문 근거 0행을 확인했다. 네이티브 `BGRepoSaver.SaveAndMarkAsSaved()`의 실제 저장 경로가 같은 에셋이며 변경 없는 저장 전후 bytes가 동일하고 저장된 규칙 검증이 통과했다. 씬은 수정하거나 저장하지 않았다.
+
+- 일반 `uloop compile`: 오류 0, 경고 0.
+- `Project16.CardGame.Tests` EditMode: 57/57 통과. 네이티브 BG 리소스 검색과 모듈 참조 일치, BG 셀의 기간 1→2 편집·직렬화 후 추가 개인턴 공격 차단, 기존 BG 파일의 JSON seed 덮어쓰기 거부를 추가로 검증했다.
+- BGDatabase 창 screenshot에서 전체 테이블 목록을 확인했고 Unity Console Error는 0개였다.
+- 이 수정에서 PlayMode 재실행과 플레이어 빌드는 수행하지 않았다. 런타임 레이어·서비스·어셈블리 구조는 바꾸지 않았다.

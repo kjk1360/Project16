@@ -59,7 +59,7 @@ Codex에서 `Ctrl+O`로 `C:\KDI\KDIBaseProjects\Project15\Project16`을 열고 �
 
 ## 카드게임 규칙 기반 (2026-09-13)
 
-BGDatabase는 Spec 전용으로 유지했다. `Assets/_Project/CardGame`에 Data/Domain/Application, `Assets/_Project/SpecAuthoring/CardGame.tables.json`에 작성 테이블, Resources에 검증된 BG bytes를 추가했다. CardGameModule은 FoundationSettings에 연결되어 있으며 진행 상태는 독립 MessagePack 저장 단위로 관리한다. 화면 구현과 원문 카드 전체의 확정 팩은 포함하지 않는다. 설계/사용법은 [SpecTableDesign.md](GameDesign/SpecTableDesign.md), 원문 대비 미비사항은 [SourceEffectCoverage.md](GameDesign/SourceEffectCoverage.md), 검증은 [Validation.md](GameDesign/Validation.md)를 따른다.
+BGDatabase는 Spec 전용으로 유지했다. `Assets/_Project/CardGame`에 Data/Domain/Application, `Assets/_Project/Resources/bansheegz_database.bytes`에 BG 창에서 편집하는 테이블을 추가했다. `Assets/_Project/SpecAuthoring/CardGame.tables.json`은 초기 샘플/테스트 seed다. CardGameModule은 같은 BG 에셋을 참조하며 FoundationSettings에 연결되어 있고, 진행 상태는 독립 MessagePack 저장 단위로 관리한다. 화면 구현과 원문 카드 전체의 확정 팩은 포함하지 않는다. 설계/사용법은 [SpecTableDesign.md](GameDesign/SpecTableDesign.md), 원문 대비 미비사항은 [SourceEffectCoverage.md](GameDesign/SourceEffectCoverage.md), 검증은 [Validation.md](GameDesign/Validation.md)를 따른다.
 
 ## 초기 설치 검증 기록 (2026-09-12)
 

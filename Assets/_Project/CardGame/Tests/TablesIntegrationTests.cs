@@ -30,7 +30,7 @@ namespace Project16.CardGame.Tests
             _module = ScriptableObject.CreateInstance<CardGameModule>();
             // TextAsset(string) does not preserve arbitrary binary bytes. Use the imported .bytes asset.
             _asset = AssetDatabase.LoadAssetAtPath<TextAsset>(GameSpecImport.OutputPath);
-            Assert.That(_asset, Is.Not.Null, "Run Tools/Project16/Import Card Game Specs first.");
+            Assert.That(_asset, Is.Not.Null, "Restore the tracked BG database asset or run Tools/Project16/Create Missing Card Game Specs from JSON.");
             var serialized = new SerializedObject(_module);
             serialized.FindProperty("_specDatabase").objectReferenceValue = _asset;
             serialized.ApplyModifiedPropertiesWithoutUndo();
@@ -41,6 +41,41 @@ namespace Project16.CardGame.Tests
         {
             UnityEngine.Object.DestroyImmediate(_module);
             if (Directory.Exists(_root)) Directory.Delete(_root, true);
+        }
+
+        [Test]
+        public void NativeBGResourceAndGameModuleUseTheSameAsset()
+        {
+            // Exercise BG's real resource-name lookup without loading/replacing its global repo.
+            var nativeAsset = new BGLoaderForRepoResources().Load("bansheegz_database");
+            Assert.That(nativeAsset, Is.SameAs(_asset));
+            var assets = Resources.LoadAll<TextAsset>("bansheegz_database");
+            Assert.That(assets, Has.Length.EqualTo(1), "The native BG resource must be unambiguous.");
+            var module = AssetDatabase.LoadAssetAtPath<CardGameModule>("Assets/_Project/Settings/CardGameModule.asset");
+            Assert.That(new SerializedObject(module).FindProperty("_specDatabase").objectReferenceValue, Is.SameAs(_asset));
+            Assert.That(GameSpecLoader.Load(nativeAsset.bytes).Cards.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void NativeBGCellEditSurvivesSerializationAndChangesRuntimeDuration()
+        {
+            var repo = new BGRepoBinary().Read(_asset.bytes);
+            try
+            {
+                repo.GetMeta("durations").GetEntity("next-own-start").Set("occurrences", 2);
+                var specs = GameSpecLoader.Load(repo.Save());
+                Assert.That(specs.Duration("next-own-start").Occurrences, Is.EqualTo(2));
+                Assert.That(HealthAfterTwoResponses(specs), Is.EqualTo(20));
+            }
+            finally { repo.Clear(); }
+        }
+
+        [Test]
+        public void JsonSeedCannotOverwriteExistingNativeDatabase()
+        {
+            var original = File.ReadAllBytes(GameSpecImport.OutputPath);
+            Assert.Throws<InvalidOperationException>(() => GameSpecImport.Import());
+            Assert.That(File.ReadAllBytes(GameSpecImport.OutputPath), Is.EqualTo(original));
         }
 
         [Test]

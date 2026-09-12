@@ -58,6 +58,12 @@ snapshot에는 정리해야 할 Unity 자원이나 구독이 없으므로 불변
 
 ## 검증과 현재 범위
 
+### BG 편집 창의 데이터 연결
+
+카드게임의 작성 원본은 `Assets/_Project/Resources/bansheegz_database.bytes`다. 설치 소스의 `Database/Repo/Loader/BGLoaderForRepoResources.cs`는 기본 repo를 `Resources.Load<TextAsset>("bansheegz_database")`로 찾는다. 이전 `Resources/Project16/CardGameSpecs.bytes`는 직접 참조한 런타임 모듈에서는 읽혔지만 이 기본 검색 규칙에 맞지 않아 BG 창에 데이터 없음이 표시되었다. 어셈블리 분리와는 관계가 없다. [공식 설치 문서](https://www.bansheegz.com/BGDatabase/Setup/)의 데이터 파일명·위치 규칙과도 일치한다.
+
+에셋을 Unity `AssetDatabase.MoveAsset`으로 이동하여 GUID와 `CardGameModule` 참조를 유지했다. 네이티브 BG 창은 작성할 때 자체 전역 repo를 사용하지만, 게임 실행은 같은 저장 파일을 `BgSpecSource`의 독립 repo로 읽는다. 에디터 표시를 위해 런타임 서비스를 전역 BG repo에 연결하거나 어셈블리를 합칠 필요가 없다. 일반 편집은 BG의 Save Repo 후 프로젝트의 Validate Saved 메뉴로 확인한다. JSON은 초기 샘플/테스트 seed로만 사용하며 기존 BG 파일을 덮어쓰지 않는다.
+
 `Assets/_Project/Foundation/Tests/Editor/SpecTests.cs`는 게임 스키마와 무관한 lookup/reference 테이블을 독립 `BGRepo`에서 메모리로 만든다. 다음 계약을 검증한다.
 
 - 기본 repo 로드 상태/에러/경로를 바꾸지 않는 로딩과 relation 매핑.

@@ -21,6 +21,8 @@ KDI Git 의존성은 공개 ToolStorage 저장소의 기존 commit을 유지한�
 
 공개 작성본은 `sourceCards.rows`만 비운다. 해당 테이블은 근거 기록이며 런타임 규칙 엔진에서 참조하지 않는다. 실행용 Spec 124행을 그대로 유지하고 binary를 다시 생성했다. 원본 전문 100행이 JSON뿐 아니라 binary에도 남지 않도록 같은 공개 작성본에서 생성했다.
 
+BG 창 연결 수정 후의 작성 원본은 `Assets/_Project/Resources/bansheegz_database.bytes`다. 초기 공개 bytes를 GUID와 함께 이동했고, BG 창과 게임 모듈이 같은 파일을 사용한다. JSON은 초기 샘플/테스트 seed로 유지하며 기존 BG 파일을 덮어쓰지 않는다. BG가 만드는 `bansheegz_database_settings.json`과 `.meta`는 개인 편집기 설정으로 Git에서 제외한다. 데이터 bytes와 그 `.meta`는 계속 공유한다.
+
 ## 브랜치와 에셋 충돌
 
 씬·프리팹의 동일 에셋을 동시에 편집하는 일을 줄이고 각 기능 브랜치로 PR을 보낸다. `.meta`를 새로 생성해 기존 GUID를 바꾸지 않는다. Addressables 그룹/라벨/주소는 AGENTS.md의 KDI 정책을 따른다.

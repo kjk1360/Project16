@@ -28,7 +28,9 @@ git switch -c feature/my-feature
 
 ## Spec 작성과 저장
 
-[CardGame.tables.json](Assets/_Project/SpecAuthoring/CardGame.tables.json)을 수정한 뒤 **Tools → Project16 → Import Card Game Specs (JSON to BG)**를 실행합니다. 검증된 BG binary를 갱신하며, 작성 JSON과 생성 bytes를 함께 커밋합니다. 공개 샘플의 `sourceCards`는 빈 근거 테이블입니다. 룰북/카드 원문과 원문 전사 파일은 별도로 보관하고 이 저장소에 업로드하지 않습니다.
+**Window → BGDatabase** 또는 **Tools → Project16 → Open Card Game Specs (BGDatabase)**를 엽니다. **Database** 탭에서 20개 테이블의 행을 수정하고 BG 창의 **Save Repo**로 저장합니다. 작성 원본은 [bansheegz_database.bytes](Assets/_Project/Resources/bansheegz_database.bytes)이며 게임 모듈도 이 에셋을 직접 참조합니다. 저장 후 **Tools → Project16 → Validate Saved Card Game Specs**로 규칙과 참조를 검증하고 게임을 다시 시작하면 변경값으로 App Scope를 구성합니다. 실행 중인 Spec snapshot은 자동 갱신하지 않습니다.
+
+[CardGame.tables.json](Assets/_Project/SpecAuthoring/CardGame.tables.json)은 초기 샘플과 테스트용 seed입니다. **Create Missing Card Game Specs from JSON**은 DB 파일이 없을 때만 생성하며 기존 BG 편집 내용을 덮어쓰지 않습니다. 생성 전에 BG 창이 이미 열려 있었다면 **Reload**를 누릅니다. 일반 데이터 작업에서는 BG bytes와 `.meta`를 보존하여 커밋합니다. 공개 샘플의 `sourceCards`는 빈 근거 테이블입니다. 룰북/카드 원문과 원문 전사 파일은 별도로 보관하고 이 저장소에 업로드하지 않습니다.
 
 UserData는 `Application.persistentDataPath/UserData/<profile>`에 저장됩니다. dirty 단위만 30초 간격과 백그라운드/종료 시 MessagePack으로 저장하며 서버 저장은 없습니다.
 

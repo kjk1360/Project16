@@ -10,22 +10,36 @@ using UnityEngine;
 
 namespace Project16.CardGame.Editor
 {
-    /// <summary>Imports this project's authored tables without touching BGRepo.I.</summary>
+    /// <summary>Bootstraps the native BG authoring asset and validates saved specs using a private repo.</summary>
     public static class GameSpecImport
     {
         public const string SourcePath = "Assets/_Project/SpecAuthoring/CardGame.tables.json";
-        public const string OutputPath = "Assets/_Project/Resources/Project16/CardGameSpecs.bytes";
+        // The native BG editor locates its Resources database by this exact resource name.
+        public const string OutputPath = "Assets/_Project/Resources/bansheegz_database.bytes";
 
-        [MenuItem("Tools/Project16/Import Card Game Specs (JSON to BG)")]
+        [MenuItem("Tools/Project16/Open Card Game Specs (BGDatabase)")]
+        public static void Open() => EditorApplication.ExecuteMenuItem("Window/BGDatabase");
+
+        [MenuItem("Tools/Project16/Validate Saved Card Game Specs")]
+        public static void ValidateSaved()
+        {
+            GameSpecLoader.Load(File.ReadAllBytes(OutputPath));
+            Debug.Log($"Saved card game specs are valid: {OutputPath}. Restart the game to load changed specs.");
+        }
+
+        [MenuItem("Tools/Project16/Create Missing Card Game Specs from JSON")]
         public static void Import()
         {
+            // BG is the authoring source. The seed must never overwrite edits saved in its window.
+            if (File.Exists(OutputPath))
+                throw new InvalidOperationException("The BG database already exists. Edit it in Window > BGDatabase; JSON creation cannot overwrite it.");
             var bytes = Build(File.ReadAllText(SourcePath));
             // Validate every executable row and cross-table reference before replacing the asset.
             GameSpecLoader.Load(bytes);
             Directory.CreateDirectory(Path.GetDirectoryName(OutputPath));
             File.WriteAllBytes(OutputPath, bytes);
             AssetDatabase.ImportAsset(OutputPath);
-            Debug.Log($"Validated card game BG tables: {OutputPath} ({bytes.Length} bytes)");
+            Debug.Log($"Created valid card game BG tables: {OutputPath} ({bytes.Length} bytes). If the BG window still reports a missing database, click its Reload button.");
         }
 
         public static byte[] Build(string json)

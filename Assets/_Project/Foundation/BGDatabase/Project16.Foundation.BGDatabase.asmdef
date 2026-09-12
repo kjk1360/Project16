@@ -1,0 +1,14 @@
+{
+  "name": "Project16.Foundation.BGDatabase",
+  "rootNamespace": "Project16.Foundation.BGDatabase",
+  "references": [
+    "Project16.Foundation",
+    "Kylin.DI",
+    "Kylin.DI.Layered"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "BGDatabase.dll"
+  ],
+  "autoReferenced": false
+}

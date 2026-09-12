@@ -1,0 +1,7 @@
+{
+  "name": "Project16.Foundation.PlayModeTests",
+  "rootNamespace": "Project16.Foundation.PlayModeTests",
+  "references": ["Project16.Foundation", "Kylin.DI", "Kylin.DI.Layered", "Kylin.Subscribable"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

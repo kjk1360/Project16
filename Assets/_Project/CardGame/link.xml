@@ -1,0 +1,5 @@
+<linker>
+  <assembly fullname="Project16.CardGame">
+    <type fullname="Project16.CardGame.Persistence.GameStateFormatter" preserve="all" />
+  </assembly>
+</linker>

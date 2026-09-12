@@ -1,0 +1,8 @@
+{
+  "name": "Project16.Foundation",
+  "rootNamespace": "Project16.Foundation",
+  "references": ["Kylin.DI", "Kylin.DI.Layered", "Kylin.Subscribable", "Kylin.DI.MessagePack"],
+  "overrideReferences": true,
+  "precompiledReferences": ["MessagePack.dll", "MessagePack.Annotations.dll"],
+  "autoReferenced": true
+}

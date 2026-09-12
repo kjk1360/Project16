@@ -1,0 +1,11 @@
+{
+  "contract_version": "2.0-preview.1",
+  "boundary_globs": [
+    "Assets/_Project/Foundation/Composition/**",
+    "Assets/_Project/Foundation/BGDatabase/BgSpecSource.cs",
+    "Assets/_Project/CardGame/Composition/**",
+    "Assets/_Project/CardGame/Specs/GameSpecCatalog.cs"
+  ],
+  "framework_namespace_prefixes": ["Kylin.DI"],
+  "fail_on": "never"
+}

@@ -1,0 +1,1976 @@
+{
+  "formatVersion": 1,
+  "tables": [
+    {
+      "name": "catalog",
+      "fields": [
+        {
+          "name": "schemaVersion",
+          "type": "int"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "sourceComplete",
+          "type": "bool"
+        }
+      ],
+      "rows": [
+        {
+          "key": "prototype-v1",
+          "schemaVersion": 1,
+          "description": "Engine prototype; unprovided source base stats are not reconstructed. See Docs/GameDesign.",
+          "sourceComplete": false
+        }
+      ]
+    },
+    {
+      "name": "rules",
+      "fields": [
+        {
+          "name": "initialPhaseId",
+          "type": "relation",
+          "table": "phases"
+        },
+        {
+          "name": "normalDrawCount",
+          "type": "int"
+        },
+        {
+          "name": "soloDrawCount",
+          "type": "int"
+        },
+        {
+          "name": "cardActionsPerTurn",
+          "type": "int"
+        },
+        {
+          "name": "itemActionsPerTurn",
+          "type": "int"
+        },
+        {
+          "name": "maxResolutionSteps",
+          "type": "int"
+        },
+        {
+          "name": "combatPhaseId",
+          "type": "relation",
+          "table": "phases"
+        },
+        {
+          "name": "restHeal",
+          "type": "int"
+        },
+        {
+          "name": "restWithExileHeal",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "key": "prototype-v1",
+          "initialPhaseId": "town",
+          "normalDrawCount": 5,
+          "soloDrawCount": 6,
+          "cardActionsPerTurn": 1,
+          "itemActionsPerTurn": 1,
+          "maxResolutionSteps": 1024,
+          "combatPhaseId": "combat",
+          "restHeal": 1,
+          "restWithExileHeal": 3
+        }
+      ]
+    },
+    {
+      "name": "phases",
+      "fields": [
+        {
+          "name": "kind",
+          "type": "string"
+        },
+        {
+          "name": "nextPhaseId",
+          "type": "relation",
+          "table": "phases"
+        },
+        {
+          "name": "enterGroupId",
+          "type": "relation",
+          "table": "groups"
+        },
+        {
+          "name": "exitGroupId",
+          "type": "relation",
+          "table": "groups"
+        }
+      ],
+      "rows": [
+        {
+          "key": "start",
+          "kind": "Start",
+          "nextPhaseId": "town",
+          "enterGroupId": null,
+          "exitGroupId": null
+        },
+        {
+          "key": "town",
+          "kind": "Town",
+          "nextPhaseId": "exploration",
+          "enterGroupId": null,
+          "exitGroupId": null
+        },
+        {
+          "key": "exploration",
+          "kind": "Exploration",
+          "nextPhaseId": "end",
+          "enterGroupId": null,
+          "exitGroupId": null
+        },
+        {
+          "key": "combat",
+          "kind": "Combat",
+          "nextPhaseId": "end",
+          "enterGroupId": null,
+          "exitGroupId": null
+        },
+        {
+          "key": "end",
+          "kind": "End",
+          "nextPhaseId": "start",
+          "enterGroupId": null,
+          "exitGroupId": null
+        }
+      ]
+    },
+    {
+      "name": "actors",
+      "fields": [
+        {
+          "name": "maxHp",
+          "type": "int"
+        },
+        {
+          "name": "baseAttack",
+          "type": "int"
+        },
+        {
+          "name": "team",
+          "type": "string"
+        },
+        {
+          "name": "tags",
+          "type": "strings"
+        }
+      ],
+      "rows": [
+        {
+          "key": "prototype-player",
+          "maxHp": 20,
+          "baseAttack": 2,
+          "team": "players",
+          "tags": [
+            "player",
+            "prototype-balance"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "companions",
+      "fields": [
+        {
+          "name": "displayName",
+          "type": "string"
+        },
+        {
+          "name": "tags",
+          "type": "strings"
+        }
+      ],
+      "rows": [
+        {
+          "key": "yui",
+          "displayName": "유이",
+          "tags": [
+            "support"
+          ]
+        },
+        {
+          "key": "heathcliff",
+          "displayName": "히스클리프",
+          "tags": [
+            "tank"
+          ]
+        },
+        {
+          "key": "asuna",
+          "displayName": "아스나",
+          "tags": [
+            "female",
+            "switch"
+          ]
+        },
+        {
+          "key": "kirito",
+          "displayName": "키리토",
+          "tags": [
+            "male"
+          ]
+        },
+        {
+          "key": "silica",
+          "displayName": "시리카",
+          "tags": [
+            "female"
+          ]
+        },
+        {
+          "key": "sachi",
+          "displayName": "사치",
+          "tags": [
+            "female"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cards",
+      "fields": [
+        {
+          "name": "kind",
+          "type": "string"
+        },
+        {
+          "name": "attack",
+          "type": "int"
+        },
+        {
+          "name": "effectGroupId",
+          "type": "relation",
+          "table": "groups"
+        },
+        {
+          "name": "companionId",
+          "type": "relation",
+          "table": "companions"
+        },
+        {
+          "name": "cost",
+          "type": "int"
+        },
+        {
+          "name": "resourceKey",
+          "type": "string"
+        },
+        {
+          "name": "canSwitch",
+          "type": "bool"
+        },
+        {
+          "name": "tags",
+          "type": "strings"
+        },
+        {
+          "name": "attackValueId",
+          "type": "relation",
+          "table": "values"
+        },
+        {
+          "name": "allowedPhases",
+          "type": "strings"
+        },
+        {
+          "name": "isEmergency",
+          "type": "bool"
+        }
+      ],
+      "rows": [
+        {
+          "key": "yui-mhcp",
+          "kind": "Skill",
+          "attack": 0,
+          "effectGroupId": "protect-self",
+          "companionId": "yui",
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "heathcliff-shield",
+          "kind": "Skill",
+          "attack": 0,
+          "effectGroupId": "protect-party",
+          "companionId": "heathcliff",
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "sachi-draw",
+          "kind": "Skill",
+          "attack": 0,
+          "effectGroupId": "draw-one",
+          "companionId": "sachi",
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "silica-heal",
+          "kind": "Skill",
+          "attack": 0,
+          "effectGroupId": "heal-chosen",
+          "companionId": "silica",
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Town"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "silica-antidote",
+          "kind": "Skill",
+          "attack": 0,
+          "effectGroupId": "cleanse-party",
+          "companionId": "silica",
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "silica-pina",
+          "kind": "Skill",
+          "attack": 0,
+          "effectGroupId": "battle-guard-group",
+          "companionId": "silica",
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "bread",
+          "kind": "Item",
+          "attack": 0,
+          "effectGroupId": "draw-two",
+          "companionId": null,
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Town"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "toad-meat",
+          "kind": "Item",
+          "attack": 0,
+          "effectGroupId": "draw-three",
+          "companionId": null,
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Town"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "potion",
+          "kind": "Item",
+          "attack": 0,
+          "effectGroupId": "heal-two",
+          "companionId": null,
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "healing-crystal",
+          "kind": "Item",
+          "attack": 0,
+          "effectGroupId": "heal-four",
+          "companionId": null,
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance",
+            "crystal"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "antidote-crystal",
+          "kind": "Item",
+          "attack": 0,
+          "effectGroupId": "cleanse-chosen",
+          "companionId": null,
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance",
+            "crystal"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": true
+        },
+        {
+          "key": "sleep",
+          "kind": "Skill",
+          "attack": 0,
+          "effectGroupId": "sleep-enemies",
+          "companionId": null,
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "deep-sleep",
+          "kind": "Skill",
+          "attack": 0,
+          "effectGroupId": "sleep-two-enemies",
+          "companionId": null,
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "regenerate",
+          "kind": "Skill",
+          "attack": 0,
+          "effectGroupId": "regenerate-group",
+          "companionId": null,
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "basic-strike",
+          "kind": "Skill",
+          "attack": 2,
+          "effectGroupId": null,
+          "companionId": null,
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "attack",
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "switch-strike",
+          "kind": "Skill",
+          "attack": 2,
+          "effectGroupId": null,
+          "companionId": null,
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": true,
+          "tags": [
+            "attack",
+            "prototype-balance"
+          ],
+          "attackValueId": null,
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        },
+        {
+          "key": "reaver",
+          "kind": "Skill",
+          "attack": 0,
+          "effectGroupId": null,
+          "companionId": null,
+          "cost": 0,
+          "resourceKey": null,
+          "canSwitch": false,
+          "tags": [
+            "attack",
+            "prototype-balance"
+          ],
+          "attackValueId": "avatar-attack",
+          "allowedPhases": [
+            "Combat"
+          ],
+          "isEmergency": false
+        }
+      ]
+    },
+    {
+      "name": "groups",
+      "fields": [],
+      "rows": [
+        {
+          "key": "pulse-heal"
+        },
+        {
+          "key": "protect-self"
+        },
+        {
+          "key": "protect-party"
+        },
+        {
+          "key": "draw-one"
+        },
+        {
+          "key": "heal-chosen"
+        },
+        {
+          "key": "cleanse-party"
+        },
+        {
+          "key": "battle-guard-group"
+        },
+        {
+          "key": "draw-two"
+        },
+        {
+          "key": "draw-three"
+        },
+        {
+          "key": "heal-two"
+        },
+        {
+          "key": "heal-four"
+        },
+        {
+          "key": "cleanse-chosen"
+        },
+        {
+          "key": "sleep-enemies"
+        },
+        {
+          "key": "sleep-two-enemies"
+        },
+        {
+          "key": "regenerate-group"
+        },
+        {
+          "key": "monster-hit"
+        },
+        {
+          "key": "monster-dual-hit"
+        },
+        {
+          "key": "monster-paralysis"
+        },
+        {
+          "key": "reward-coin"
+        }
+      ]
+    },
+    {
+      "name": "effects",
+      "fields": [
+        {
+          "name": "groupId",
+          "type": "relation",
+          "table": "groups"
+        },
+        {
+          "name": "order",
+          "type": "int"
+        },
+        {
+          "name": "operation",
+          "type": "string"
+        },
+        {
+          "name": "targetId",
+          "type": "relation",
+          "table": "selectors"
+        },
+        {
+          "name": "amount",
+          "type": "int"
+        },
+        {
+          "name": "valueId",
+          "type": "relation",
+          "table": "values"
+        },
+        {
+          "name": "conditionId",
+          "type": "relation",
+          "table": "conditions"
+        },
+        {
+          "name": "referenceId",
+          "type": "string"
+        },
+        {
+          "name": "resourceKey",
+          "type": "string"
+        },
+        {
+          "name": "destination",
+          "type": "string"
+        },
+        {
+          "name": "trigger",
+          "type": "string"
+        }
+      ],
+      "rows": [
+        {
+          "key": "pulse-heal-1",
+          "groupId": "pulse-heal",
+          "order": 0,
+          "operation": "Heal",
+          "targetId": "self",
+          "amount": 1,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": null,
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "protect-self-1",
+          "groupId": "protect-self",
+          "order": 0,
+          "operation": "ApplyModifier",
+          "targetId": "self",
+          "amount": 0,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": "protected-until-next",
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "protect-party-1",
+          "groupId": "protect-party",
+          "order": 0,
+          "operation": "ApplyModifier",
+          "targetId": "all-players",
+          "amount": 0,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": "protected-until-next",
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "sachi-1",
+          "groupId": "draw-one",
+          "order": 0,
+          "operation": "Draw",
+          "targetId": "self",
+          "amount": 1,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": null,
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "silica-1",
+          "groupId": "heal-chosen",
+          "order": 0,
+          "operation": "Heal",
+          "targetId": "choose-player",
+          "amount": 1,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": null,
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "bread-1",
+          "groupId": "draw-two",
+          "order": 0,
+          "operation": "Draw",
+          "targetId": "self",
+          "amount": 2,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": null,
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "toad-1",
+          "groupId": "draw-three",
+          "order": 0,
+          "operation": "Draw",
+          "targetId": "self",
+          "amount": 3,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": null,
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "potion-1",
+          "groupId": "heal-two",
+          "order": 0,
+          "operation": "Heal",
+          "targetId": "self",
+          "amount": 2,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": null,
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "healing-1",
+          "groupId": "heal-four",
+          "order": 0,
+          "operation": "Heal",
+          "targetId": "choose-player",
+          "amount": 4,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": null,
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "cleanse-1",
+          "groupId": "cleanse-chosen",
+          "order": 0,
+          "operation": "RemoveModifiersByTag",
+          "targetId": "choose-player",
+          "amount": 0,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": "paralysis",
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "cleanse-all-1",
+          "groupId": "cleanse-party",
+          "order": 0,
+          "operation": "RemoveModifiersByTag",
+          "targetId": "all-players",
+          "amount": 0,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": "paralysis",
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "silica-guard-1",
+          "groupId": "battle-guard-group",
+          "order": 0,
+          "operation": "ApplyModifier",
+          "targetId": "self",
+          "amount": 0,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": "battle-guard",
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "silica-guard-2",
+          "groupId": "battle-guard-group",
+          "order": 1,
+          "operation": "ApplyModifier",
+          "targetId": "self",
+          "amount": 0,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": "battle-guard-floor",
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "sleep-1",
+          "groupId": "sleep-enemies",
+          "order": 0,
+          "operation": "ApplyModifier",
+          "targetId": "enemies",
+          "amount": 0,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": "sleep-until-next",
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "sleep-2",
+          "groupId": "sleep-two-enemies",
+          "order": 0,
+          "operation": "ApplyModifier",
+          "targetId": "enemies",
+          "amount": 0,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": "sleep-until-second",
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "regen-1",
+          "groupId": "regenerate-group",
+          "order": 0,
+          "operation": "ApplyModifier",
+          "targetId": "self",
+          "amount": 0,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": "regeneration-every-two",
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "monster-hit-1",
+          "groupId": "monster-hit",
+          "order": 0,
+          "operation": "Damage",
+          "targetId": "current-player",
+          "amount": 2,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": null,
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "monster-dual-hit-1",
+          "groupId": "monster-dual-hit",
+          "order": 0,
+          "operation": "Damage",
+          "targetId": "current-and-left",
+          "amount": 1,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": null,
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "monster-para-hit",
+          "groupId": "monster-paralysis",
+          "order": 0,
+          "operation": "Damage",
+          "targetId": "current-player",
+          "amount": 1,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": null,
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "monster-para-attack",
+          "groupId": "monster-paralysis",
+          "order": 1,
+          "operation": "ApplyModifier",
+          "targetId": "current-player",
+          "amount": 0,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": "paralysis-attack",
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "monster-para-switch",
+          "groupId": "monster-paralysis",
+          "order": 2,
+          "operation": "ApplyModifier",
+          "targetId": "current-player",
+          "amount": 0,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": "paralysis-switch",
+          "resourceKey": null,
+          "destination": "Discard",
+          "trigger": "None"
+        },
+        {
+          "key": "reward-coin-1",
+          "groupId": "reward-coin",
+          "order": 0,
+          "operation": "GainResource",
+          "targetId": "self",
+          "amount": 1,
+          "valueId": null,
+          "conditionId": null,
+          "referenceId": null,
+          "resourceKey": "coin",
+          "destination": "Discard",
+          "trigger": "None"
+        }
+      ]
+    },
+    {
+      "name": "selectors",
+      "fields": [
+        {
+          "name": "targets",
+          "type": "strings"
+        },
+        {
+          "name": "deduplicateTargets",
+          "type": "bool"
+        },
+        {
+          "name": "requiredTag",
+          "type": "string"
+        },
+        {
+          "name": "team",
+          "type": "string"
+        }
+      ],
+      "rows": [
+        {
+          "key": "self",
+          "targets": [
+            "Self"
+          ],
+          "deduplicateTargets": false,
+          "requiredTag": null,
+          "team": null
+        },
+        {
+          "key": "owner",
+          "targets": [
+            "SourceOwner"
+          ],
+          "deduplicateTargets": false,
+          "requiredTag": null,
+          "team": null
+        },
+        {
+          "key": "all-players",
+          "targets": [
+            "AllPlayers"
+          ],
+          "deduplicateTargets": false,
+          "requiredTag": null,
+          "team": null
+        },
+        {
+          "key": "enemies",
+          "targets": [
+            "AllMonsters"
+          ],
+          "deduplicateTargets": false,
+          "requiredTag": null,
+          "team": null
+        },
+        {
+          "key": "current-player",
+          "targets": [
+            "CurrentPlayer"
+          ],
+          "deduplicateTargets": false,
+          "requiredTag": null,
+          "team": null
+        },
+        {
+          "key": "current-and-left",
+          "targets": [
+            "CurrentPlayer",
+            "PreviousPlayer"
+          ],
+          "deduplicateTargets": false,
+          "requiredTag": null,
+          "team": null
+        },
+        {
+          "key": "choose-player",
+          "targets": [
+            "SelectedPlayer"
+          ],
+          "deduplicateTargets": false,
+          "requiredTag": null,
+          "team": null
+        },
+        {
+          "key": "choose-monster",
+          "targets": [
+            "SelectedMonster"
+          ],
+          "deduplicateTargets": false,
+          "requiredTag": null,
+          "team": null
+        },
+        {
+          "key": "source-card",
+          "targets": [
+            "SourceCard"
+          ],
+          "deduplicateTargets": false,
+          "requiredTag": null,
+          "team": null
+        }
+      ]
+    },
+    {
+      "name": "values",
+      "fields": [
+        {
+          "name": "kind",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "int"
+        },
+        {
+          "name": "referenceId",
+          "type": "string"
+        },
+        {
+          "name": "multiplier",
+          "type": "int"
+        },
+        {
+          "name": "divisor",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "key": "avatar-attack",
+          "kind": "PlayerBaseAttack",
+          "amount": 0,
+          "referenceId": null,
+          "multiplier": 1,
+          "divisor": 1
+        },
+        {
+          "key": "all-participant-hp",
+          "kind": "PlayerCount",
+          "amount": 0,
+          "referenceId": null,
+          "multiplier": 8,
+          "divisor": 1
+        }
+      ]
+    },
+    {
+      "name": "conditions",
+      "fields": [
+        {
+          "name": "kind",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "int"
+        },
+        {
+          "name": "referenceId",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "relations",
+          "table": "conditions"
+        },
+        {
+          "name": "eventKind",
+          "type": "string"
+        }
+      ],
+      "rows": [
+        {
+          "key": "low-hp",
+          "kind": "HpAtMost",
+          "amount": 10,
+          "referenceId": null,
+          "children": [],
+          "eventKind": "None"
+        }
+      ]
+    },
+    {
+      "name": "durations",
+      "fields": [
+        {
+          "name": "kind",
+          "type": "string"
+        },
+        {
+          "name": "occurrences",
+          "type": "int"
+        },
+        {
+          "name": "phaseId",
+          "type": "relation",
+          "table": "phases"
+        },
+        {
+          "name": "anchor",
+          "type": "string"
+        }
+      ],
+      "rows": [
+        {
+          "key": "next-own-start",
+          "kind": "OwnerTurnStart",
+          "occurrences": 1,
+          "phaseId": null,
+          "anchor": "SourceOwner"
+        },
+        {
+          "key": "second-own-start",
+          "kind": "OwnerTurnStart",
+          "occurrences": 2,
+          "phaseId": null,
+          "anchor": "SourceOwner"
+        },
+        {
+          "key": "round-end",
+          "kind": "RoundEnd",
+          "occurrences": 1,
+          "phaseId": null,
+          "anchor": "Owner"
+        },
+        {
+          "key": "battle-end",
+          "kind": "BattleEnd",
+          "occurrences": 1,
+          "phaseId": null,
+          "anchor": "Owner"
+        },
+        {
+          "key": "permanent",
+          "kind": "Permanent",
+          "occurrences": 1,
+          "phaseId": null,
+          "anchor": "Owner"
+        }
+      ]
+    },
+    {
+      "name": "modifiers",
+      "fields": [
+        {
+          "name": "kind",
+          "type": "string"
+        },
+        {
+          "name": "durationId",
+          "type": "relation",
+          "table": "durations"
+        },
+        {
+          "name": "stat",
+          "type": "string"
+        },
+        {
+          "name": "operation",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "int"
+        },
+        {
+          "name": "effectGroupId",
+          "type": "relation",
+          "table": "groups"
+        },
+        {
+          "name": "trigger",
+          "type": "string"
+        },
+        {
+          "name": "everyOccurrences",
+          "type": "int"
+        },
+        {
+          "name": "conditionId",
+          "type": "relation",
+          "table": "conditions"
+        },
+        {
+          "name": "stackPolicy",
+          "type": "string"
+        },
+        {
+          "name": "maxStacks",
+          "type": "int"
+        },
+        {
+          "name": "blockedAction",
+          "type": "string"
+        },
+        {
+          "name": "tags",
+          "type": "strings"
+        },
+        {
+          "name": "priority",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "key": "protected-until-next",
+          "kind": "Stat",
+          "durationId": "next-own-start",
+          "stat": "DamageTaken",
+          "operation": "Set",
+          "amount": 0,
+          "effectGroupId": null,
+          "trigger": "None",
+          "everyOccurrences": 1,
+          "conditionId": null,
+          "stackPolicy": "Refresh",
+          "maxStacks": 1,
+          "blockedAction": "PlayCard",
+          "tags": [
+            "protection"
+          ],
+          "priority": 100
+        },
+        {
+          "key": "protected-until-second",
+          "kind": "Stat",
+          "durationId": "second-own-start",
+          "stat": "DamageTaken",
+          "operation": "Set",
+          "amount": 0,
+          "effectGroupId": null,
+          "trigger": "None",
+          "everyOccurrences": 1,
+          "conditionId": null,
+          "stackPolicy": "Refresh",
+          "maxStacks": 1,
+          "blockedAction": "PlayCard",
+          "tags": [
+            "protection"
+          ],
+          "priority": 100
+        },
+        {
+          "key": "sleep-until-next",
+          "kind": "PreventAction",
+          "durationId": "next-own-start",
+          "stat": "Attack",
+          "operation": "Add",
+          "amount": 0,
+          "effectGroupId": null,
+          "trigger": "None",
+          "everyOccurrences": 1,
+          "conditionId": null,
+          "stackPolicy": "Refresh",
+          "maxStacks": 1,
+          "blockedAction": "Attack",
+          "tags": [
+            "sleep"
+          ],
+          "priority": 0
+        },
+        {
+          "key": "sleep-until-second",
+          "kind": "PreventAction",
+          "durationId": "second-own-start",
+          "stat": "Attack",
+          "operation": "Add",
+          "amount": 0,
+          "effectGroupId": null,
+          "trigger": "None",
+          "everyOccurrences": 1,
+          "conditionId": null,
+          "stackPolicy": "Refresh",
+          "maxStacks": 1,
+          "blockedAction": "Attack",
+          "tags": [
+            "sleep"
+          ],
+          "priority": 0
+        },
+        {
+          "key": "paralysis-attack",
+          "kind": "Stat",
+          "durationId": "round-end",
+          "stat": "Attack",
+          "operation": "Add",
+          "amount": -1,
+          "effectGroupId": null,
+          "trigger": "None",
+          "everyOccurrences": 1,
+          "conditionId": null,
+          "stackPolicy": "Refresh",
+          "maxStacks": 1,
+          "blockedAction": "PlayCard",
+          "tags": [
+            "paralysis"
+          ],
+          "priority": 0
+        },
+        {
+          "key": "paralysis-switch",
+          "kind": "PreventAction",
+          "durationId": "round-end",
+          "stat": "Attack",
+          "operation": "Add",
+          "amount": 0,
+          "effectGroupId": null,
+          "trigger": "None",
+          "everyOccurrences": 1,
+          "conditionId": null,
+          "stackPolicy": "Refresh",
+          "maxStacks": 1,
+          "blockedAction": "Switch",
+          "tags": [
+            "paralysis"
+          ],
+          "priority": 0
+        },
+        {
+          "key": "battle-guard",
+          "kind": "Stat",
+          "durationId": "battle-end",
+          "stat": "DamageTaken",
+          "operation": "Add",
+          "amount": -1,
+          "effectGroupId": null,
+          "trigger": "None",
+          "everyOccurrences": 1,
+          "conditionId": null,
+          "stackPolicy": "Refresh",
+          "maxStacks": 1,
+          "blockedAction": "PlayCard",
+          "tags": [
+            "guard"
+          ],
+          "priority": 0
+        },
+        {
+          "key": "battle-guard-floor",
+          "kind": "Stat",
+          "durationId": "battle-end",
+          "stat": "DamageTaken",
+          "operation": "Minimum",
+          "amount": 1,
+          "effectGroupId": null,
+          "trigger": "None",
+          "everyOccurrences": 1,
+          "conditionId": null,
+          "stackPolicy": "Refresh",
+          "maxStacks": 1,
+          "blockedAction": "PlayCard",
+          "tags": [
+            "guard"
+          ],
+          "priority": 90
+        },
+        {
+          "key": "regeneration-every-two",
+          "kind": "PeriodicTrigger",
+          "durationId": "battle-end",
+          "stat": "Attack",
+          "operation": "Add",
+          "amount": 0,
+          "effectGroupId": "pulse-heal",
+          "trigger": "TurnStart",
+          "everyOccurrences": 2,
+          "conditionId": null,
+          "stackPolicy": "Refresh",
+          "maxStacks": 1,
+          "blockedAction": "PlayCard",
+          "tags": [
+            "regeneration"
+          ],
+          "priority": 0
+        }
+      ]
+    },
+    {
+      "name": "upgrades",
+      "fields": [
+        {
+          "name": "effectGroupId",
+          "type": "relation",
+          "table": "groups"
+        },
+        {
+          "name": "modifierId",
+          "type": "relation",
+          "table": "modifiers"
+        },
+        {
+          "name": "requiredCardTag",
+          "type": "string"
+        },
+        {
+          "name": "companionId",
+          "type": "relation",
+          "table": "companions"
+        },
+        {
+          "name": "attackBonus",
+          "type": "int"
+        },
+        {
+          "name": "maxAttachments",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "key": "add-regeneration",
+          "effectGroupId": "regenerate-group",
+          "modifierId": null,
+          "requiredCardTag": null,
+          "companionId": null,
+          "attackBonus": 0,
+          "maxAttachments": 1
+        },
+        {
+          "key": "add-team-protection",
+          "effectGroupId": "protect-party",
+          "modifierId": null,
+          "requiredCardTag": null,
+          "companionId": null,
+          "attackBonus": 0,
+          "maxAttachments": 1
+        },
+        {
+          "key": "attack-plus-one",
+          "effectGroupId": null,
+          "modifierId": null,
+          "requiredCardTag": "attack",
+          "companionId": null,
+          "attackBonus": 1,
+          "maxAttachments": 3
+        }
+      ]
+    },
+    {
+      "name": "monsters",
+      "fields": [
+        {
+          "name": "maxHp",
+          "type": "int"
+        },
+        {
+          "name": "attackGroupId",
+          "type": "relation",
+          "table": "groups"
+        },
+        {
+          "name": "attack",
+          "type": "int"
+        },
+        {
+          "name": "rewardId",
+          "type": "relation",
+          "table": "rewards"
+        },
+        {
+          "name": "finishRewardId",
+          "type": "relation",
+          "table": "rewards"
+        },
+        {
+          "name": "tags",
+          "type": "strings"
+        },
+        {
+          "name": "repeatable",
+          "type": "bool"
+        },
+        {
+          "name": "maxHpValueId",
+          "type": "relation",
+          "table": "values"
+        }
+      ],
+      "rows": [
+        {
+          "key": "training-boar",
+          "maxHp": 6,
+          "attackGroupId": "monster-hit",
+          "attack": 0,
+          "rewardId": "coin",
+          "finishRewardId": null,
+          "tags": [
+            "prototype-balance"
+          ],
+          "repeatable": false,
+          "maxHpValueId": null
+        },
+        {
+          "key": "training-spider",
+          "maxHp": 8,
+          "attackGroupId": "monster-paralysis",
+          "attack": 0,
+          "rewardId": null,
+          "finishRewardId": null,
+          "tags": [
+            "prototype-balance"
+          ],
+          "repeatable": false,
+          "maxHpValueId": null
+        },
+        {
+          "key": "training-guardian",
+          "maxHp": 10,
+          "attackGroupId": "monster-dual-hit",
+          "attack": 0,
+          "rewardId": null,
+          "finishRewardId": "coin",
+          "tags": [
+            "boss",
+            "prototype-balance"
+          ],
+          "repeatable": false,
+          "maxHpValueId": null
+        },
+        {
+          "key": "training-scaled-boss",
+          "maxHp": 1,
+          "attackGroupId": "monster-hit",
+          "attack": 0,
+          "rewardId": null,
+          "finishRewardId": null,
+          "tags": [
+            "boss",
+            "prototype-balance"
+          ],
+          "repeatable": false,
+          "maxHpValueId": "all-participant-hp"
+        }
+      ]
+    },
+    {
+      "name": "encounters",
+      "fields": [
+        {
+          "name": "monsterIds",
+          "type": "relations",
+          "table": "monsters"
+        },
+        {
+          "name": "rewardId",
+          "type": "relation",
+          "table": "rewards"
+        },
+        {
+          "name": "nextEncounterId",
+          "type": "relation",
+          "table": "encounters"
+        },
+        {
+          "name": "victoryOnClear",
+          "type": "bool"
+        },
+        {
+          "name": "enterGroupId",
+          "type": "relation",
+          "table": "groups"
+        }
+      ],
+      "rows": [
+        {
+          "key": "training-field",
+          "monsterIds": [
+            "training-boar"
+          ],
+          "rewardId": null,
+          "nextEncounterId": null,
+          "victoryOnClear": false,
+          "enterGroupId": null
+        },
+        {
+          "key": "training-paralysis",
+          "monsterIds": [
+            "training-spider"
+          ],
+          "rewardId": null,
+          "nextEncounterId": null,
+          "victoryOnClear": false,
+          "enterGroupId": null
+        },
+        {
+          "key": "training-boss",
+          "monsterIds": [
+            "training-guardian"
+          ],
+          "rewardId": null,
+          "nextEncounterId": null,
+          "victoryOnClear": true,
+          "enterGroupId": null
+        },
+        {
+          "key": "training-party-boss",
+          "monsterIds": [
+            "training-scaled-boss"
+          ],
+          "rewardId": null,
+          "nextEncounterId": null,
+          "victoryOnClear": false,
+          "enterGroupId": null
+        },
+        {
+          "key": "training-pair",
+          "monsterIds": [
+            "training-boar",
+            "training-boar"
+          ],
+          "rewardId": null,
+          "nextEncounterId": null,
+          "victoryOnClear": false,
+          "enterGroupId": null
+        }
+      ]
+    },
+    {
+      "name": "rewards",
+      "fields": [
+        {
+          "name": "effectGroupId",
+          "type": "relation",
+          "table": "groups"
+        }
+      ],
+      "rows": [
+        {
+          "key": "coin",
+          "effectGroupId": "reward-coin"
+        }
+      ]
+    },
+    {
+      "name": "deckEntries",
+      "fields": [
+        {
+          "name": "deckId",
+          "type": "string"
+        },
+        {
+          "name": "cardId",
+          "type": "relation",
+          "table": "cards"
+        },
+        {
+          "name": "count",
+          "type": "int"
+        },
+        {
+          "name": "order",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "key": "training-00",
+          "deckId": "training-deck",
+          "cardId": "basic-strike",
+          "count": 1,
+          "order": 0
+        },
+        {
+          "key": "training-01",
+          "deckId": "training-deck",
+          "cardId": "basic-strike",
+          "count": 1,
+          "order": 1
+        },
+        {
+          "key": "training-02",
+          "deckId": "training-deck",
+          "cardId": "switch-strike",
+          "count": 1,
+          "order": 2
+        },
+        {
+          "key": "training-03",
+          "deckId": "training-deck",
+          "cardId": "yui-mhcp",
+          "count": 1,
+          "order": 3
+        },
+        {
+          "key": "training-04",
+          "deckId": "training-deck",
+          "cardId": "sleep",
+          "count": 1,
+          "order": 4
+        },
+        {
+          "key": "training-05",
+          "deckId": "training-deck",
+          "cardId": "deep-sleep",
+          "count": 1,
+          "order": 5
+        },
+        {
+          "key": "training-06",
+          "deckId": "training-deck",
+          "cardId": "sachi-draw",
+          "count": 1,
+          "order": 6
+        },
+        {
+          "key": "training-07",
+          "deckId": "training-deck",
+          "cardId": "bread",
+          "count": 1,
+          "order": 7
+        },
+        {
+          "key": "training-08",
+          "deckId": "training-deck",
+          "cardId": "potion",
+          "count": 1,
+          "order": 8
+        },
+        {
+          "key": "training-09",
+          "deckId": "training-deck",
+          "cardId": "regenerate",
+          "count": 1,
+          "order": 9
+        }
+      ]
+    },
+    {
+      "name": "scenarios",
+      "fields": [
+        {
+          "name": "actorIds",
+          "type": "relations",
+          "table": "actors"
+        },
+        {
+          "name": "deckId",
+          "type": "string"
+        },
+        {
+          "name": "encounterId",
+          "type": "relation",
+          "table": "encounters"
+        },
+        {
+          "name": "companionIds",
+          "type": "relations",
+          "table": "companions"
+        },
+        {
+          "name": "isSolo",
+          "type": "bool"
+        }
+      ],
+      "rows": [
+        {
+          "key": "prototype-solo",
+          "actorIds": [
+            "prototype-player"
+          ],
+          "deckId": "training-deck",
+          "encounterId": "training-field",
+          "companionIds": [
+            "yui",
+            "heathcliff",
+            "asuna",
+            "kirito",
+            "silica",
+            "sachi"
+          ],
+          "isSolo": true
+        },
+        {
+          "key": "prototype-coop",
+          "actorIds": [
+            "prototype-player",
+            "prototype-player"
+          ],
+          "deckId": "training-deck",
+          "encounterId": "training-field",
+          "companionIds": [
+            "yui",
+            "heathcliff",
+            "asuna",
+            "kirito",
+            "silica",
+            "sachi"
+          ],
+          "isSolo": false
+        },
+        {
+          "key": "prototype-town",
+          "actorIds": [
+            "prototype-player"
+          ],
+          "deckId": "training-deck",
+          "encounterId": null,
+          "companionIds": [
+            "yui",
+            "heathcliff",
+            "asuna",
+            "kirito",
+            "silica",
+            "sachi"
+          ],
+          "isSolo": true
+        }
+      ]
+    },
+    {
+      "name": "sourceCards",
+      "fields": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "kind",
+          "type": "string"
+        },
+        {
+          "name": "page",
+          "type": "int"
+        },
+        {
+          "name": "abilityText",
+          "type": "string"
+        },
+        {
+          "name": "unknownStats",
+          "type": "strings"
+        },
+        {
+          "name": "issueIds",
+          "type": "strings"
+        },
+        {
+          "name": "executableReady",
+          "type": "bool"
+        }
+      ],
+      "rows": []
+    }
+  ]
+}

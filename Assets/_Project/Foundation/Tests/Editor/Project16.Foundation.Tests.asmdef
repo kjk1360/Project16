@@ -1,0 +1,10 @@
+{
+  "name": "Project16.Foundation.Tests",
+  "rootNamespace": "Project16.Foundation.Tests",
+  "references": ["Project16.Foundation", "Project16.Foundation.BGDatabase", "Kylin.DI", "Kylin.DI.Layered", "Kylin.Subscribable", "Kylin.DI.MessagePack"],
+  "includePlatforms": ["Editor"],
+  "overrideReferences": true,
+  "precompiledReferences": ["MessagePack.dll", "MessagePack.Annotations.dll", "BGDatabase.dll", "nunit.framework.dll"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

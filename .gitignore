@@ -1,0 +1,93 @@
+# Unity (based on github/gitignore Unity template)
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+.utmp/
+*.log
+*.blend1
+*.blend1.meta
+
+# IDE, generated solutions and crash output
+.vs/
+.idea/
+.vscode/
+.gradle/
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.DotSettings.user
+*.pidb
+*.pdb
+*.mdb
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+*.opendb
+*.VC.db
+sysinfo.txt
+mono_crash.*
+*.apk
+*.aab
+*.app
+*.unitypackage
+*.unitypackage.meta
+crashlytics-build.properties
+
+# Build output only: keep Addressables settings, groups and schemas
+/ServerData/
+/Assets/StreamingAssets/aa*
+/Assets/AddressableAssetsData/link.xml*
+/Assets/AddressableAssetsData/*/*.bin*
+/Assets/Addressables_Temp*
+/Assets/InitTestScene*.unity*
+/Assets/SceneDependencyCache*
+/Assets/Plugins/Editor/JetBrains*
+/Assets/Unity.VisualScripting.Generated/VisualScripting.Flow/UnitOptions.db*
+/Assets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers*
+
+# Restored by NuGetForUnity from the tracked packages.config and NuGet.config
+/Assets/Packages/
+/Assets/Packages.meta
+*.nupkg
+*.snupkg
+
+# BGDatabase is installed separately by each licensed collaborator
+/Assets/BansheeGz/
+/Assets/BansheeGz.meta
+
+# Local source reference material and verbatim transcriptions
+/Docs/GameRuleBook/
+/Docs/GameDesign/CardSourceInventory.json
+/Docs/GameDesign/CardSourceInventory.md
+/Docs/GameDesign/RulebookCombatNotes.md
+
+# Local tool output, recordings, extracted source content, credentials
+/.uloop/
+/.codex/
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+*.pfx
+*.p12
+*.mobileprovision
+
+# Keep Assets, Packages manifests, ProjectSettings, and asset .meta files tracked.

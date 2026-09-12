@@ -1,0 +1,8 @@
+{
+  "name": "Project16.CardGame.Composition",
+  "rootNamespace": "Project16.CardGame.Composition",
+  "references": ["Project16.CardGame", "Project16.Foundation", "Project16.Foundation.BGDatabase", "Kylin.DI", "Kylin.DI.Layered"],
+  "overrideReferences": true,
+  "precompiledReferences": ["BGDatabase.dll", "MessagePack.dll", "MessagePack.Annotations.dll"],
+  "autoReferenced": true
+}

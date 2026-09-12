@@ -1,0 +1,10 @@
+{
+  "name": "Project16.ViewAssets",
+  "rootNamespace": "Project16.ViewAssets",
+  "references": [
+    "Kylin.DI",
+    "Kylin.DI.ViewAssets",
+    "Kylin.DI.ViewAssets.Addressables"
+  ],
+  "autoReferenced": true
+}

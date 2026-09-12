@@ -1,0 +1,9 @@
+{
+  "name": "Project16.CardGame",
+  "rootNamespace": "Project16.CardGame",
+  "references": ["Project16.Foundation", "Kylin.DI", "Kylin.DI.Layered", "Kylin.Subscribable", "Kylin.DI.MessagePack"],
+  "overrideReferences": true,
+  "precompiledReferences": ["MessagePack.dll", "MessagePack.Annotations.dll"],
+  "autoReferenced": true,
+  "noEngineReferences": true
+}

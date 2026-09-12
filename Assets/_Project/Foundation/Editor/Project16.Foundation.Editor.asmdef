@@ -1,0 +1,7 @@
+{
+  "name": "Project16.Foundation.Editor",
+  "rootNamespace": "Project16.Foundation.Editor",
+  "references": ["Project16.Foundation", "Kylin.DI", "Kylin.DI.Layered"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

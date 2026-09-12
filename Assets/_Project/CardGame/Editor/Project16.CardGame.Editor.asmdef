@@ -1,0 +1,8 @@
+{
+  "name": "Project16.CardGame.Editor",
+  "references": ["Project16.CardGame", "Project16.CardGame.Composition", "Project16.Foundation", "Project16.Foundation.BGDatabase"],
+  "includePlatforms": ["Editor"],
+  "overrideReferences": true,
+  "precompiledReferences": ["BGDatabase.dll", "Newtonsoft.Json.dll"],
+  "autoReferenced": false
+}
